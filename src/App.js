@@ -1,23 +1,77 @@
-import logo from './logo.svg';
+import Header from './components/Header';
 import './App.css';
+import Foodbox from './components/Foodbox';
+import Button from 'react-bootstrap/Button';
+import {useState,useEffect} from 'react';
+import Addform2 from './components/Addform2';
+import Search from './components/Search';
+import axios from 'axios';
+import { Routes,Route } from 'react-router-dom';
+import Signup from './components/Signup';
+
+const API_URI ='http://localhost:5005';
 
 function App() {
-  return (
+const [showcreteform,setcreateform] = useState(true)
+const [products,setproducts]=useState([]);
+const [searchfFormState, setSearchFormState] = useState('')
+const [searchedFood,setsearchedFood]=useState('');
+console.log(searchedFood)
+
+useEffect(()=>{
+  axios.get(`${API_URI}/api/products`)
+  .then(response=>setproducts(response.data))
+  .catch(err=>console.log(err))
+
+},[])
+
+
+console.log(products)
+
+let serchedFoods
+  const searchFood = (str) => {
+    if (str === '') {
+      serchedFoods = products
+    } else {
+      serchedFoods = products.filter((prd) => {
+        return prd.name.toLowerCase().includes(str.toLowerCase())
+      })
+    }
+    setproducts(serchedFoods)
+  };
+
+
+
+
+const hideevent=e=>{
+  setcreateform(!showcreteform)
+
+}
+return (
+  
+  
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  
+  <Routes>
+     
+  <Route path ="Signup" element = { <Signup /> } />
+
+  
+   </Routes>
+      <Header />
+  
+     <br></br> {!showcreteform && < Addform2 /> }
+      <br></br>
+      <div className='setpart1'> 
+      <Search searchFood={searchFood} setsearchedFood = {setsearchedFood} searchedFood ={searchedFood}/>
+      <br></br><Button style={{width :200}} type="primary" onClick={hideevent} >{showcreteform ? 'Table Booking' :'Close' }</Button><br></br>  
+      </div>
+      <br></br><Foodbox searchedFood = {searchedFood} products={products}/>
+     
+     
+
+   
+     
     </div>
   );
 }
