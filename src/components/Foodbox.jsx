@@ -1,24 +1,40 @@
-import React, { useEffect } from 'react'
+
 import Card from 'react-bootstrap/Card';
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
+import axios from 'axios';
+import Spinner from 'react-bootstrap/Spinner';
+const API_URI ='http://localhost:5005';
 
 
+function Foodbox({handleClick,searchedFood }) {
 
-
-function Foodbox(props) {
-const [count, setCount] = useState(0);
-
-const filtered = props.products.filter(product=>{
-  return product.name.toLowerCase().includes(props.searchedFood.toLowerCase())
+  const [products,setproducts]=useState([]);
+const filtered = products.filter(products=>{
+  return products.name.toLowerCase().includes(searchedFood.toLowerCase())
 })
 
+// const handleClick = (product)=>{
 
-if(props.products.length === 0)
+// console.log(product)
+// }
+
+useEffect(()=>{
+  axios.get(`${API_URI}/api/products`)
+  .then(response=>setproducts(response.data))
+  .catch(err=>console.log(err))
+
+},[])
+
+
+if(products.length === 0)
 {
 return <>
-  <p>Loading...</p>
+  <Spinner animation="border" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </Spinner>
+
 
 </>
 
@@ -26,26 +42,25 @@ return <>
 
   return (
     <div> 
-    <div className='cardset'> 
+    
     <Row xs={1} md={2} className="g-3"> 
    
-    {filtered.map((product)=>(  
+    {filtered.map((products)=>(  
       
-  <Card bg='Info' border='primary' text='secondary' key={product._id} style={{width:'18rem'}}>
-  <br></br><Card.Img  style={{height: 150}} variant='top' src = {product.image} />
+  <Card bg='Info' border='primary' text='secondary' key={products._id} style={{width:'18rem'}}>
+  <br></br><Card.Img  style={{height: 150}} variant='top' src = {products.image} />
   <Card.Body>
-<Card.Title>{product.name} </Card.Title>
+<Card.Title>{products.name} </Card.Title>
 <br/>
-<Card.Text>{product.description} {count}</Card.Text>
+<Card.Text>{products.description}</Card.Text>
 
-<Card.Text>{product.price}</Card.Text>
-<Button onClick={()=> setCount(count + 1)} variant="outline-primary" style={{width:'5rem'}}> + </Button>{' '}
-<Button onClick={()=> setCount(count - 1)} variant="outline-primary" style={{width:'5rem'}}> - </Button>{' '}
+<Card.Text>Price {products.price} € </Card.Text>
+<Button onClick={()=> handleClick(products)} variant="outline-primary" style={{width:'10rem'}}>Add To Cart </Button>{' '}
   </Card.Body>
   </Card>
   ))}
   </Row>
-  </div>
+  
   </div>
  
     )
