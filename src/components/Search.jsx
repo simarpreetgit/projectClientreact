@@ -1,11 +1,11 @@
 import React from 'react'
 import FormControl from 'react-bootstrap/FormControl';
-import { useState } from 'react';
+
 
 const Search = (props) => {
     
 const handelInput = e =>{
-
+  e.preventDefault();
 props.setsearchedFood(e.target.value)
 }
 

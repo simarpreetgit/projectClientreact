@@ -14,6 +14,7 @@ const Addform2 = () => {
     const {name,Phone,user_message} = allValues
 
     const changeHandler = (e) =>{
+      e.preventDefault();
         setAllValues({...allValues, [e.target.name]: e.target.value})
 
     }

@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
+
+
 const API_URI ='http://localhost:5005';
 
 
@@ -34,8 +36,6 @@ return <>
   <Spinner animation="border" role="status">
       <span className="visually-hidden">Loading...</span>
     </Spinner>
-
-
 </>
 
 }
@@ -55,9 +55,15 @@ return <>
 <Card.Text>{products.description}</Card.Text>
 
 <Card.Text>Price {products.price} € </Card.Text>
+
+  
 <Button onClick={()=> handleClick(products)} variant="outline-primary" style={{width:'10rem'}}>Add To Cart </Button>{' '}
+
+
   </Card.Body>
+  
   </Card>
+  
   ))}
   </Row>
   

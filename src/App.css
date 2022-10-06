@@ -62,8 +62,10 @@ Link {
 
   display: flex;
   align-items: center;
+  align-content: flex-end;
   justify-content:center;
   gap: 20px;
+
 
 
 }

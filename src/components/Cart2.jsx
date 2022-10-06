@@ -2,23 +2,26 @@ import React from 'react'
 import { useState,useEffect } from 'react'
 import { MDBCol,MDBRow } from 'mdb-react-ui-kit';
 import Button from 'react-bootstrap/Button';
-
+import {RiDeleteBinFill} from 'react-icons/ri'
 
 
 const Cart2 = ({cart,setCart,handleChange}) => {
    
-    const [price,setPrice] = useState(0);
+    const [prce,setPrice] = useState(0);
+    const [displayPrices, setDisplayPrices] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0)
 
     const handleRemove = (id) => {
         const arr = cart.filter((products) => products._id !== id);
         setCart(arr);
         handlePrice();
+      
       };
     
      const handlePrice = ()=>{
         let ans = 0;
         cart.map((products) => (ans += products.amount * products.price));
-        setPrice(ans);
+        setPrice(ans.toFixed(2));
     
      } 
     
@@ -26,19 +29,20 @@ const Cart2 = ({cart,setCart,handleChange}) => {
      useEffect(()=>{
     
         handlePrice();
-     })
+     },[])
     
-
+     useEffect(()=>{
+      const listOfPrices = cart.map(product => { return {displayPrice: product.price * product.amount} })
+      const sumOfList = cart.map(product => product.amount * product.price).reduce((previousValue, currentValue) => previousValue + currentValue, 0)
+      setDisplayPrices(listOfPrices)
+      setTotalPrice(sumOfList)
+    }, [cart])
   return (
     <div>
-      <div className='totalprice'> 
-        <h3>Total Price</h3>
-
-        <Button variant="outline-primary" style={{width:'8rem',height:40}}><h2>  € {price}</h2></Button>{' '}
-</div>
+     
 <br></br><br></br>
 <MDBRow>
-      {cart.map((products)=>(
+      {cart.map((products,index)=>(
         <MDBCol lg='4' md='6' className='mb-4'key={products._id}>
         <img
           src={products.image}
@@ -53,12 +57,19 @@ const Cart2 = ({cart,setCart,handleChange}) => {
 <Button variant="outline-primary" style={{width:'5rem'}}>Qty {products.amount}</Button>{' '}
  
     <Button onClick={()=> handleChange(products, -1)} variant="outline-primary" style={{width:'3rem'}}>-</Button>{' '}
-    <Button onClick={()=> handleRemove(products._id)} variant="outline-primary" style={{width:'5rem'}}>🗑</Button>
+    {/* <span>€ {displayPrices.length !== 0 && displayPrices[index].displayPrice}</span> */}
+
+    <Button onClick={()=> handleRemove(products._id)} variant="outline-primary" style={{width:'5rem'}}> <RiDeleteBinFill fontSize =" 25px" /></Button>
       </MDBCol>
       ))}
       
     
 </MDBRow>
+ <br></br><div className='totalprice'> 
+        <h3>Total Price</h3>
+
+        <Button className='bttotalprice' variant="outline-primary" style={{width:'8rem',height:40}}><h3>  € {totalPrice}</h3></Button>{' '}
+</div>
     </div>
     
   )
