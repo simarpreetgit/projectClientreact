@@ -68,8 +68,37 @@ const Cart2 = ({cart,setCart,handleChange}) => {
  <br></br><div className='totalprice'> 
         <h3>Total Price</h3>
 
-        <Button className='bttotalprice' variant="outline-primary" style={{width:'8rem',height:40}}><h3>  € {totalPrice}</h3></Button>{' '}
+        <Button className='bttotalprice' variant="outline-primary" style={{width:'7rem',height:40}}><h3>  € {totalPrice}</h3></Button>{' '}
+        <form
+            method="POST"
+            action="https://checkout.flutterwave.com/v3/hosted/pay"
+          >
+            <div> </div>
+            <input
+              type="hidden"
+              name="public_key"
+              value="FLWPUBK_TEST-SANDBOXDEMOKEY-X"
+            />
+            <input
+              type="hidden"
+              name="customer[email]"
+              value="order@pastavila.com"
+            />
+            <input type="hidden" name="customer[name]" value="Jesse Pinkman" />
+            <input type="hidden" name="tx_ref" value="bitethtx-019203" />
+            <input type="hidden" name="amount" value={totalPrice} />
+            <input type="hidden" name="currency" value="USD" />
+            <input type="hidden" name="meta[token]" value="54" />
+            <input type="hidden" name="redirect_url" value="" />
+            <Button type="submit" id="start-payment-button" variant="outline-primary">
+              Pay Now
+            </Button>
+          </form>
 </div>
+
+<div>
+          
+        </div>
     </div>
     
   )

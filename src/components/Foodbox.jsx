@@ -7,7 +7,7 @@ import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
 
 
-const API_URI ='http://localhost:5005';
+const API_URI ='https://singh-restro-server.cyclic.app';
 
 
 function Foodbox({handleClick,searchedFood }) {
