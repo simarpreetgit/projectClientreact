@@ -6,8 +6,10 @@ import {RiDeleteBinFill} from 'react-icons/ri'
 
 
 const Cart2 = ({cart,setCart,handleChange}) => {
-   
+ 
+ // eslint-disable-next-line
     const [prce,setPrice] = useState(0);
+    // eslint-disable-next-line
     const [displayPrices, setDisplayPrices] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0)
 
@@ -29,6 +31,7 @@ const Cart2 = ({cart,setCart,handleChange}) => {
      useEffect(()=>{
     
         handlePrice();
+         // eslint-disable-next-line
      },[])
     
      useEffect(()=>{
