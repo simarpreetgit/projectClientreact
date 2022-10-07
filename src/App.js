@@ -10,7 +10,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import swal from 'sweetalert';
 
 
-const API_URI ='https://singh-restro-server.cyclic.app/';
+const API_URI ='https://singh-restro-server.cyclic.app';
 
 function App() {
 const [showcreteform,setcreateform] = useState(true)
